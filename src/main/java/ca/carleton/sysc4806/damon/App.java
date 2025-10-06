@@ -5,6 +5,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 
+import ca.carleton.sysc4806.damon.AddressBookRepository;
+import ca.carleton.sysc4806.damon.BuddyInfoRepository;
+
 import java.util.Locale;
 import java.util.Scanner;
 
