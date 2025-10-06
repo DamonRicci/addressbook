@@ -1,3 +1,5 @@
+package ca.carleton.sysc4806.damon;
+
 import ca.carleton.sysc4806.damon.*;
 import org.junit.jupiter.api.Test;
 
