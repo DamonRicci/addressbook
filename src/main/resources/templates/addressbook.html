@@ -1,11 +1,35 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head><meta charset="UTF-8"><title>AddressBook</title></head>
-<body>
-<h1 th:text="'Address Book #' + ${addressbook.id}">Address Book</h1>
-<ul>
-    <li th:each="b : ${addressbook.getBuddies()}"
-        th:text="${b.name} + ' (' + ${b.phoneNumber} + ')'">Buddy</li>
-</ul>
-</body>
-</html>
+<!DOCTYPE html><html xmlns:th="http://www.thymeleaf.org"><head>
+    <meta charset="utf-8"><title th:text="'Address Book ' + ${addressbook.id}">AB</title>
+    <link rel="stylesheet" th:href="@{/app.css}">
+</head><body>
+<a th:href="@{/ab/list}">← Back</a>
+<h1 th:text="'Address Book ' + ${addressbook.id}">Address Book</h1>
+
+<h2>Add Buddy</h2>
+<form th:action="@{|/ab/${addressbook.id}/buddy|}" method="post" id="addBuddyForm">
+    <input name="name" placeholder="Name" required>
+    <input name="phone" placeholder="Phone" required>
+    <button type="submit">Add</button>
+</form>
+
+<h2>Buddies</h2>
+<table border="1" cellpadding="6" id="buddiesTable">
+    <tr><th>Name</th><th>Phone</th><th>Actions</th></tr>
+    <tr th:each="b : ${addressbook.buddies}">
+        <td th:text="${b.name}">Alice</td>
+        <td th:text="${b.phoneNumber}">555-1234</td>
+        <td>
+            <form th:action="@{|/ab/${addressbook.id}/buddy/${b.id}/delete|}" method="post">
+                <button type="submit">Remove</button>
+            </form>
+        </td>
+    </tr>
+</table>
+
+<hr>
+<form th:action="@{|/ab/${addressbook.id}/delete|}" method="post">
+    <button type="submit">Delete Address Book</button>
+</form>
+
+<script defer src="/app.js"></script>
+</body></html>

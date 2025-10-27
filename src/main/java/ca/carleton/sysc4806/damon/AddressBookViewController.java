@@ -4,6 +4,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -30,4 +32,35 @@ public class AddressBookViewController {
         model.addAttribute("addressbooks", abL);
         return "ablist";
     }
+
+    @PostMapping("/ab")
+    public String createAb() {
+        AddressBook ab = abRepo.save(new AddressBook());
+        return "redirect:/ab/find/" + ab.getId();
+    }
+
+    @PostMapping("/ab/{id}/buddy")
+    public String addBuddy(@PathVariable Long id,
+                           @RequestParam String name,
+                           @RequestParam String phone) {
+        AddressBook ab = abRepo.findById(id).orElseThrow();
+        ab.addBuddy(new BuddyInfo(name, phone));
+        abRepo.save(ab);
+        return "redirect:/ab/find/" + id;
+    }
+
+    @PostMapping("/ab/{id}/buddy/{buddyId}/delete")
+    public String removeBuddy(@PathVariable Long id, @PathVariable Long buddyId) {
+        AddressBook ab = abRepo.findById(id).orElseThrow();
+        ab.removeBuddyById(buddyId);
+        abRepo.save(ab);
+        return "redirect:/ab/find/" + id;
+    }
+
+    @PostMapping("/ab/{id}/delete")
+    public String deleteAb(@PathVariable Long id) {
+        abRepo.deleteById(id);
+        return "redirect:/ab/list";
+    }
+
 }

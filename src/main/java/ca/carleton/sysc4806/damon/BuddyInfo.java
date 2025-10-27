@@ -49,11 +49,12 @@ public class BuddyInfo {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof BuddyInfo)) return false;
-        BuddyInfo that = (BuddyInfo) o;
-        return name == that.name && phoneNumber == that.phoneNumber;
+    public boolean equals(Object o){
+        if(this==o) return true;
+        if(!(o instanceof BuddyInfo)) return false;
+        BuddyInfo that=(BuddyInfo)o;
+        return java.util.Objects.equals(name, that.name)
+                && java.util.Objects.equals(phoneNumber, that.phoneNumber);
     }
 
     @Override

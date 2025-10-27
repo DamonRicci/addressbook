@@ -1,88 +1,23 @@
-<!-- src/main/resources/templates/addressbooks.html -->
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>All Address Books</title>
-  <style>
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 2rem; }
-    h1 { margin-bottom: 1rem; display: inline-block; }
-    table { border-collapse: collapse; width: 100%; margin-top: 1rem; }
-    th, td { border: 1px solid #ddd; padding: .6rem .8rem; text-align: left; }
-    th { background: #f6f6f7; }
-    tr:hover { background: #fafafa; }
-    .muted { color: #666; }
-    .btn { margin-left: 1rem; padding: .4rem .8rem; border: 1px solid #ccc; background: #eee; cursor: pointer; }
-    .btn:hover { background: #e0e0e0; }
-  </style>
-</head>
-<body>
+<!DOCTYPE html><html xmlns:th="http://www.thymeleaf.org"><head>
+    <meta charset="utf-8"><title>Address Books</title>
+</head><body>
 <h1>Address Books</h1>
-<button class="btn" type="button" onclick="createNew()">New</button>
 
-<!-- Show when list is empty -->
-<p class="muted" th:if="${addressbooks == null or #lists.isEmpty(addressbooks)}" id="emptyMessage">
-  No address books found.
-</p>
+<form th:action="@{/ab}" method="post">
+    <button type="submit">Create new Address Book</button>
+</form>
 
-<!-- Table of address books -->
-<table th:unless="${addressbooks == null or #lists.isEmpty(addressbooks)}" id="abTable">
-  <thead>
-  <tr>
-    <th>ID</th>
-    <th>Buddy Count</th>
-    <th>Open</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr th:each="ab : ${addressbooks}">
-    <td th:text="${ab.id}">1</td>
-    <td th:text="${ab.buddies != null ? #lists.size(ab.buddies) : 0}">0</td>
-    <td>
-      <a th:href="@{/ab/find/{id}(id=${ab.id})}">View</a>
-    </td>
-  </tr>
-  </tbody>
+<table border="1" cellpadding="6">
+    <tr><th>ID</th><th>Open</th><th>Delete</th></tr>
+    <tr th:each="ab : ${addressbooks}">
+        <td th:text="${ab.id}">1</td>
+        <td><a th:href="@{|/ab/find/${ab.id}|}">View</a></td>
+        <td>
+            <form th:action="@{|/ab/${ab.id}/delete|}" method="post">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
 </table>
 
-<script>
-function createNew() {
-    fetch('/ab/new', { method: 'POST' })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Created new address book:', data);
-
-            // Hide "No address books found" message if it exists
-            const emptyMsg = document.getElementById('emptyMessage');
-            if (emptyMsg) emptyMsg.style.display = 'none';
-
-            // Ensure table is visible
-            const table = document.getElementById('abTable');
-            table.style.display = 'table';
-
-            // Add new row
-            const tbody = table.querySelector('tbody');
-            const tr = document.createElement('tr');
-
-            const tdId = document.createElement('td');
-            tdId.textContent = data.id;
-            tr.appendChild(tdId);
-
-            const tdCount = document.createElement('td');
-            tdCount.textContent = data.buddies ? data.buddies.length : 0;
-            tr.appendChild(tdCount);
-
-            const tdLink = document.createElement('td');
-            const a = document.createElement('a');
-            a.href = '/ab/find/' + data.id;
-            a.textContent = 'View';
-            tdLink.appendChild(a);
-            tr.appendChild(tdLink);
-
-            tbody.appendChild(tr);
-        })
-        .catch(error => console.error('Error creating address book:', error));
-}
-</script>
-</body>
-</html>
+</body></html>

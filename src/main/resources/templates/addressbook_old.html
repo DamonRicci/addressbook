@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>AddressBook</title></head>
+<body>
+<h1 th:text="'Address Book #' + ${addressbook.id}">Address Book</h1>
+<ul>
+    <li th:each="b : ${addressbook.getBuddies()}"
+        th:text="${b.name} + ' (' + ${b.phoneNumber} + ')'">Buddy</li>
+</ul>
+</body>
+</html>

@@ -55,4 +55,9 @@ public class AddressBook {
     public void setId(Long id){
         this.id = id;
     }
+
+
+    public void removeBuddyById(Long id){
+        buddylist.removeIf(b -> b.getId().equals(id));
+    }
 }
