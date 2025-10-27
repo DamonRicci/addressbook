@@ -1,23 +1,32 @@
-<!DOCTYPE html><html xmlns:th="http://www.thymeleaf.org"><head>
-    <meta charset="utf-8"><title>Address Books</title>
-</head><body>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Address Books</title>
+</head>
+<body>
+
 <h1>Address Books</h1>
 
 <form th:action="@{/ab}" method="post">
-    <button type="submit">Create new Address Book</button>
+    <input type="submit" value="Create">
 </form>
 
-<table border="1" cellpadding="6">
-    <tr><th>ID</th><th>Open</th><th>Delete</th></tr>
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Open</th>
+        <th>Delete</th>
+    </tr>
     <tr th:each="ab : ${addressbooks}">
-        <td th:text="${ab.id}">1</td>
+        <td th:text="${ab.id}">0</td>
         <td><a th:href="@{|/ab/find/${ab.id}|}">View</a></td>
         <td>
             <form th:action="@{|/ab/${ab.id}/delete|}" method="post">
-                <button type="submit">Delete</button>
+                <input type="submit" value="Delete">
             </form>
         </td>
     </tr>
 </table>
 
-</body></html>
+</body>
+</html>

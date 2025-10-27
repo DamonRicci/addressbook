@@ -1,35 +1,44 @@
-<!DOCTYPE html><html xmlns:th="http://www.thymeleaf.org"><head>
-    <meta charset="utf-8"><title th:text="'Address Book ' + ${addressbook.id}">AB</title>
-    <link rel="stylesheet" th:href="@{/app.css}">
-</head><body>
-<a th:href="@{/ab/list}">← Back</a>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="'Address Book ' + ${addressbook.id}">Address Book</title>
+</head>
+<body>
+
+<p><a th:href="@{/ab/list}">Back to list</a></p>
+
 <h1 th:text="'Address Book ' + ${addressbook.id}">Address Book</h1>
 
 <h2>Add Buddy</h2>
 <form th:action="@{|/ab/${addressbook.id}/buddy|}" method="post" id="addBuddyForm">
-    <input name="name" placeholder="Name" required>
-    <input name="phone" placeholder="Phone" required>
-    <button type="submit">Add</button>
+    <label>Name: <input name="name"></label>
+    <label>Phone: <input name="phone"></label>
+    <input type="submit" value="Add">
 </form>
 
 <h2>Buddies</h2>
-<table border="1" cellpadding="6" id="buddiesTable">
-    <tr><th>Name</th><th>Phone</th><th>Actions</th></tr>
+<table border="1" id="buddiesTable">
+    <tr>
+        <th>Name</th>
+        <th>Phone</th>
+        <th>Actions</th>
+    </tr>
     <tr th:each="b : ${addressbook.buddies}">
-        <td th:text="${b.name}">Alice</td>
-        <td th:text="${b.phoneNumber}">555-1234</td>
+        <td th:text="${b.name}">Name</td>
+        <td th:text="${b.phoneNumber}">Phone</td>
         <td>
             <form th:action="@{|/ab/${addressbook.id}/buddy/${b.id}/delete|}" method="post">
-                <button type="submit">Remove</button>
+                <input type="submit" value="Remove">
             </form>
         </td>
     </tr>
 </table>
 
-<hr>
+<h2>Delete Address Book</h2>
 <form th:action="@{|/ab/${addressbook.id}/delete|}" method="post">
-    <button type="submit">Delete Address Book</button>
+    <input type="submit" value="Delete Address Book">
 </form>
 
-<script defer src="/app.js"></script>
-</body></html>
+<script src="/app.js"></script>
+</body>
+</html>
